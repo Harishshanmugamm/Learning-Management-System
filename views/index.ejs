@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <title>LMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+
+<body>
+    <div class="grid grid-cols-6">
+        <div class="col-start-3 col-span-2">
+            <!--Header Start-->
+             <%- include("header.ejs") %>
+                <!--Header End-->
+                <p class="py-3 text-white text-center text-2xl font-semibold ">Welcome to Learning Management System</p>
+                <p class="py-7 text-white text-center ">New here? <a href="/signup" class="text-orange-700">Sign-up now</a></p>
+                <p class="py-3 text-white text-center">Already have an Account? <a href="/login" class="text-orange-700">Sign-in</a>
+                </p>
+        </div>
+    </div>
+</body>
+
+</html>

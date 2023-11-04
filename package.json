@@ -1,0 +1,29 @@
+{
+  "name": "learning_management_system",
+  "version": "1.0.0",
+  "description": "\"This is a capstone project of WD201\"",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -e js,ejs",
+    "test": "jest",
+    "prepare": "cd .. && husky install Learning_management_system/.husky"
+  },
+  "author": "Harish Shanmugam (hs)",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.52.0",
+    "express": "^4.18.2",
+    "husky": "^8.0.3",
+    "jest": "^29.7.0",
+    "lint-staged": "^15.0.2",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.9",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.33.0"
+  }
+}
