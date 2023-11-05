@@ -15,10 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       
       // define association here
     }
-    static addnewcourse(title)
+    static addnewcourse({name})
     {
       return this.create({
-        title,
+        title:name,
         
       })
     }

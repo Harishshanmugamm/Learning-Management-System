@@ -3,7 +3,7 @@ const app=express();
 const path=require('path')
 const bodyParser = require('body-parser')
 const { Courses, Chapters, Pages } = require('./models');
-const courses = require("./models/courses");
+
 
 /*const courseroute=require("./routes/courses")*/
 
@@ -37,14 +37,11 @@ app.get('/', (request, response)=>{
         });
   })
   app.post('/courses/new/', async (request, response) => {
-    const { name} = request.body;
-    
+    const {name} = request.body;
     try {
       const course = await Courses.addnewcourse(
-        name);
-      
-    
-      response.redirect(`/courses/${course.id}`);
+        {name});
+    response.redirect(`/courses/${course.id}`);
     } catch (err) {
       console.error(err);
       response.status(500).send('Unable to connect to server'); 
@@ -52,13 +49,9 @@ app.get('/', (request, response)=>{
   });
 
   app.get('/courses/:id',async (request,response)=>{
-    const titlevalue=request.Courses
-    const course = await Courses.getvalues(titlevalue);
- console.log(course)
- 
+    const courseId=request.params.id
+    const course=await Courses.findByPk(courseId)
     response.render("chapter",{course})
-  
-  
     })
   
   app.get('/chapter/:id/chapters/new', async (request,response)=>{
