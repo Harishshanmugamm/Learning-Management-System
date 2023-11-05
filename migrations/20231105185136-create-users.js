@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       roles: {
-        type: Sequelize.ENUM
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

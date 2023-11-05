@@ -1,13 +1,55 @@
 <!DOCTYPE html>
 <html>
+  <script src="https://cdn.tailwindcss.com"></script>
   <head>
-    <title>Educator Portal</title>
+    <title>Educator Dashboard</title>
   </head>
   <body>
-    <form action="/courses/new" class="inline">
-      <button class="float-left submit-button" >Create a new course</button>
-  </form>
-    
+    <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: rgb(13, 13, 13);
+    }</style>
+
+    <%- include("header.ejs") %>
+    <div class="container mx-auto mt-6 p-40 bg-white rounded-lg shadow-lg">
+      <form action="/courses"  method="post">
+        <button class="bg-cyan-700 text-white pad px-5 py-3 rounded py-1.5 font-medium mr-2 mb-2" >Create a new course</button>
+      </form>
+      <form action="/courses" method="post">
+        <div class="py-10">
+          <button class="bg-teal-500 text-white pad px-5 py-3 rounded py-1.5 font-medium mr-2 mb-2" >Create a new course</button>
+        </div>
+      </form>
+      <form action="/courses"  method="post">
+        <button class="bg-orange-700 text-white pad px-5 py-3 rounded py-1.5 font-medium mr-2 mb-2" >Signout</button>
+      </form>
+      
+    </div>
+  <div class="container mx-auto mt-6 p-4 bg-white rounded-lg shadow-lg">
+    <h3 class="text-2xl font-semibold text-center">Available Courses</h3>
+
+    <div class="grid grid-cols-4 grid-flow-row gap-4 px-2">
+        <% courses.forEach(function(course) { %>
+            <div class="bg-gray-200 p-4 rounded shadow-lg hover:shadow-lg transition duration-300 ease-in-out mb-4 cursor-pointer px-6 ">
+                <h2 class="text-lg font-bold mb-2 text-center"><%= course.title %></h2>
+                <div class="flex items-stretch">
+                  <div class="w-1/2">
+                    <a href="/courseDetails/<%= course.id %>">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">View Course</button>
+                    </a>
+                  </div>
+                  <div class="w-1/2">
+                    <a href="/enrollcourse/<%= course.id %>" ><button class="bg-green-500 hover:bg-green-700 text-white font-bold  py-2 px-9 rounded "
+                    >Enroll</button>
+                    </a> 
+                  </div>
+                </div>  
+            </div>
+        <% }); %>
+        
+    </div>
+</div>
     
     </main>
   </body>

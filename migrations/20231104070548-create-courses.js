@@ -12,9 +12,7 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      description: {
-        type: Sequelize.TEXT
-      },
+      
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
