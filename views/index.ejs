@@ -7,10 +7,10 @@
    
     <title>LMS</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../public /css/styles.css">
+    <link rel="stylesheet" href="./css/styles.css">
 
 </head>
-<!--<style>
+<style>
     body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: rgb(13, 13, 13);
@@ -20,7 +20,7 @@
   display: block;
 }
 
-</style>-->
+</style>
 
 <body>
     <div class="grid grid-cols-6">
@@ -28,10 +28,55 @@
             <!--Header Start-->
              <%- include("header.ejs") %>
                 <!--Header End-->
-                <p class="py-3 text-white text-center text-2xl font-semibold ">Welcome to Learning Management System</p>
-                <p class="py-7 text-white text-center ">New here? <a href="/signup" class="text-orange-700">Sign-up now</a></p>
-                <p class="py-3 text-white text-center">Already have an Account? <a href="/login" class="text-orange-700">Sign-in</a>
-                </p>
+                <p class="py-3 text-white text-center text-2xl font-semibold ">Welcome to Learning Management System <br><br><br><br></p>
+                <div class =" grid grid-cols-2 gap-6 ">
+                
+                  <form action="/educatorlogin" method="post">
+                    <div class=" border-content h-128 w-128 p-6 border-4  ">
+                      <p class="py-3 text-white text-center text-2xl font-semibold ">Educator login</p>
+                      <div class="py-3">
+                        <label for="email" class="text-white text-lg font-semibold">Email Id:</label>
+                        <input class="border border-green-400 text-grey-1400 rounded w-full p-3 text-sm w-96"
+                          type="email" name="email" placeholder="Enter your Email id" required>
+                      </div>
+                      <div class="py-3">
+                        <label for="password" class="text-white text-lg font-semibold">Password:</label>
+                        <input class="border border-green-400 text-grey-1400 rounded w-full p-3 text-sm w-96"
+                          type="password" name="password" placeholder="Enter your password" required>
+                      </div>
+                      <div class="py-3">
+                        <button class="bg-orange-700 text-white pad px-5 py-3 rounded py-1.5 font-medium mr-2 mb-2 "
+                          type="submit">Sign In
+                        </button>
+                        <p class="py-1 text-white text-center ">Wann'a Signup as Educator? <a href="/edsignup" class="text-orange-700"><br>Sign-up now</a></p>
+                      </div>
+                    </div> 
+                  </form>
+
+                  <form action="/studentlogin" method="post">
+                    <div class="border-content h-128 w-128 p-6  border-4 ">
+                      <p class="py-3 text-white text-center text-2xl font-semibold ">Student login</p>
+                      <div class="py-3">
+                        <label for="email" class="text-white text-lg font-semibold">Email Id:</label>
+                        <input class="border border-green-400 text-grey-1400 rounded w-full p-3 text-sm w-96"
+                          type="email" name="email" placeholder="Enter your Email id" required>
+                      </div>
+                      <div class="py-3">
+                        <label for="password" class="text-white text-lg font-semibold">Password:</label>
+                        <input class="border border-green-400 text-grey-1400 rounded w-full p-3 text-sm w-96"
+                          type="password" name="password" placeholder="Enter your password" required>
+                      </div>
+                      <div class="py-3">
+                        <button class="bg-orange-700 text-white pad px-5 py-3 rounded py-1.5 font-medium mr-2 mb-2 "
+                          type="submit">Sign In
+                        </button>
+                        <p class="py-1 text-white text-center ">Wann'a Signup as Student? <a href="/signup" class="text-orange-700"><br>Sign-up now</a></p>
+                      </div>
+                    </div> 
+                  </form>
+            
+                </div>
+                
         </div>
     </div>
 </body>
