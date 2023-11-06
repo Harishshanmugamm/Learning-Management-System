@@ -3,7 +3,73 @@ const app=express();
 const path=require('path')
 const bodyParser = require('body-parser')
 const { Courses, Chapters, Pages, Users } = require('./models');
-const { fn } = require("sequelize");
+const passport=require('passport')
+const connectEnsureLogin=require('connect-ensure-login')
+const session = require('express-session')
+const LocalStrategy=require('passport-local')
+
+
+
+app.use(session({
+  secret:"my-super-secret-key-2121156448852896",
+  cookie:{
+    maxAge:24*60*60*1000
+  }
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+passport.use('students', new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password'   
+}, async (email, password, done) => {
+  try {
+    const stud = await Users.findOne({where:{email,role:'student'}});
+    if (!stud) {
+      return done(null,false,{message:'Student not found'});
+    }
+    const match = await bcrypt.compare(password, stud.password);
+    if (match) {
+      return done(null, stud);
+    } else {
+      return done(null, false, { message: 'Incorrect password' });
+    }
+  } catch (error) {
+    return done(error);
+  }
+}));
+
+passport.serializeUser((stud,done)=>{
+  console.log("Serializing student in session",stud.id)
+  done(null, stud.id)
+})
+
+passport.use('educator', new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password'   
+}, async (email, password, done) => {
+  try {
+    const edu = await Users.findOne({where:{email,role:'educator'}});
+    if (!edu) {
+      return done(null,false,{message:'educator not found'});
+    }
+    const match = await bcrypt.compare(password, edu.password);
+    if (match) {
+      return done(null, edu);
+    } else {
+      return done(null, false, { message: 'Incorrect password' });
+    }
+  } catch (error) {
+    return done(error);
+  }
+}));
+
+passport.serializeUser((edu,done)=>{
+  console.log("Serializing educator in session",edu.id)
+  done(null, edu.id)
+})
+
 
 
 /*const courseroute=require("./routes/courses")*/
@@ -11,6 +77,7 @@ const { fn } = require("sequelize");
 
 
 app.use(bodyParser.json())
+app.use(express.json())
 app.use(bodyParser.urlencoded({extended:false}))
 app.set("view engine","ejs")
 app.set("views", path.join(__dirname, "views"));
