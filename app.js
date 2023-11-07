@@ -7,7 +7,11 @@ const passport=require('passport')
 const connectEnsureLogin=require('connect-ensure-login')
 const session = require('express-session')
 const LocalStrategy=require('passport-local')
+const bcrypt= require('bcrypt');
 
+const saltRounds = 10;
+
+app.use(bodyParser.json());
 
 
 app.use(session({
@@ -20,55 +24,63 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-passport.use('students', new LocalStrategy({
+passport.use( new LocalStrategy({
   usernameField: 'email',
-  passwordField: 'password'   
+  passwordField: 'password', 
+  roleField:'role' 
 }, async (email, password, done) => {
+  
   try {
-    const stud = await Users.findOne({where:{email,role:'student'}});
-    if (!stud) {
-      return done(null,false,{message:'Student not found'});
+    const user = await Users.findOne({ where: { email } });
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!user) {
+      return done(null, false, { message: 'User not found' });
     }
-    const match = await bcrypt.compare(password, stud.password);
-    if (match) {
-      return done(null, stud);
+
+    if (user.roles === 'student') {
+
+      if (match) {
+        return done(null, user);
+      } else {
+        return done(null, false, { message: 'Incorrect password' });
+      }
     } else {
-      return done(null, false, { message: 'Incorrect password' });
+      if (match) {
+        return done(null, user);
+      } else {
+        return done(null, false, { message: 'Incorrect password' });
+      }
     }
   } catch (error) {
-    return done(error);
+    return done(null,error);
   }
 }));
 
-passport.serializeUser((stud,done)=>{
-  console.log("Serializing student in session",stud.id)
-  done(null, stud.id)
+
+passport.serializeUser((user,done)=>{
+  console.log("Serializing student in session",user.id)
+  done(null, user.id)
 })
 
-passport.use('educator', new LocalStrategy({
-  usernameField: 'email',
-  passwordField: 'password'   
-}, async (email, password, done) => {
+passport.deserializeUser(async (id, done) => {
   try {
-    const edu = await Users.findOne({where:{email,role:'educator'}});
-    if (!edu) {
-      return done(null,false,{message:'educator not found'});
-    }
-    const match = await bcrypt.compare(password, edu.password);
-    if (match) {
-      return done(null, edu);
-    } else {
-      return done(null, false, { message: 'Incorrect password' });
-    }
-  } catch (error) {
-    return done(error);
-  }
-}));
+    const user = await Users.findByPk(id);
 
-passport.serializeUser((edu,done)=>{
-  console.log("Serializing educator in session",edu.id)
-  done(null, edu.id)
-})
+    if (!user) {
+      return done(new Error('Invalid user'));
+    }
+
+    if (user.roles !== 'student' && user.roles !== 'educator') {
+      return done(new Error('Invalid roles'));
+    }
+
+    done(null, user);
+  } catch (error) {
+    done(error);
+  }
+});
+
 
 
 
@@ -93,7 +105,7 @@ app.get('/', (request, response)=>{
         });
   })
 
-  app.get('/courses',async (req,resp)=>{
+  app.get('/courses',connectEnsureLogin.ensureLoggedIn(), async (req,resp)=>{
     const courses = await Courses.findAll();
     resp.render("dashboard", {
       courses
@@ -168,11 +180,10 @@ app.get('/', (request, response)=>{
   
 
 //Signup and login
-app.get('/signin', (request, response)=>{
-    
-    response.render("index", {
-        title: "Learning Management System"
-        });
+
+
+app.post('/educatorlogin',passport.authenticate('local',{failureRedirect:"/"},{successRedirect: '/courses'}),(request,response)=>{
+  response.redirect("/courses");
 })
   app.get('/edsignup', (request, response)=>{
     
@@ -182,21 +193,27 @@ app.get('/signin', (request, response)=>{
   })
 
   app.post('/edsignup', async (request, response) => { 
+    const hashedPwd = await bcrypt.hash(request.body.password,saltRounds)
+    console.log(hashedPwd)
     try {
         const users = await Users.create({
           firstName: request.body.firstName,
           lastName:request.body.lastName,
           email:request.body.email,
-          password:request.body.password,
+          password:hashedPwd,
           roles: 'educator'})
-       
-        response.redirect("/courses");
+          request.login(users,(err)=>{
+          if(err){
+            console.log(err)
+          }
+          response.redirect("/courses");
+        })
     } catch (error) {
         console.log(error);
     }
 });
 
-  
+ 
 
   app.get('/signup', (request, response)=>{
     
@@ -213,8 +230,14 @@ app.get('/signin', (request, response)=>{
           email:request.body.email,
           password:request.body.password,
           roles: 'student'})
+          request.login(users,(err)=>{
+            if(err){
+              console.log(err)
+            }
+            response.redirect("/home");
+          })
        
-        response.redirect("/home");
+       
     } catch (error) {
         console.log(error);
     }

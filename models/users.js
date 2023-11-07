@@ -11,16 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+  
     }
-    static edsignupuser({ fn, ln, em, pass }) {
-      return this.create({
-        firstName: fn,
-        lastName: ln,
-        email: em,
-        password: pass,
-        roles: 'educator'
-      });
-    }
+
   
   }
   Users.init({
