@@ -11,20 +11,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      
-        Chapters.belongsTo(models.Courses);
-      
-      
-        Chapters.hasMany(models.Pages);
-      
+      Chapters.belongsTo(models.Courses, {
+        foreignKey: "courseId",
+      });
+      Chapters.hasMany(models.Pages, {
+        foreignKey: "chapterId",
+      });
+    }
+    static addChapter({ title, description, courseId }) {
+      return this.create({ title, description, courseId});
     }
   }
   Chapters.init({
-    heading: DataTypes.STRING,
-    description: DataTypes.TEXT
+    title: DataTypes.STRING,
+    description: DataTypes.STRING,
+    courseId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Chapters',
+    tableName: 'Chapters',
   });
   return Chapters;
 };
