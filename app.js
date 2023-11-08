@@ -15,7 +15,7 @@ app.use(cookieParser("shh! some secret string"));
 
 app.use(
   session({
-    secret: "my-super-secret-key-54862547158632541257",
+    secret: "my-super-secret-key-54862598758687641257",
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
     },
@@ -24,7 +24,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
@@ -42,20 +41,18 @@ passport.use(
           if (result) {
             return done(null, user);
           } else {
-            return done(null, false, { message: "Invalid password" });
+            return done(null, false);
           }
         })
         .catch(() => {
-          return done(null, false, {
-            message: "Account is not exist for this mail",
-          });
+          return done(null, false);
         });
     },
   ),
 );
 
 passport.serializeUser((user, done) => {
-  console.log("Serializing user in session: ", user.id);
+  console.log("Serializing usersession: ", user.id);
   done(null, user.id);
 });
 
@@ -70,23 +67,18 @@ passport.deserializeUser((id, done) => {
 });
 
 const { Courses, Chapters, Pages, User } = require("./models");
-
-
 const saltRounds = 10;
 
-app.get("/login", (req, res) => {
-  res.redirect("/");
-});
 
 app.get("/", (req, res) => {
   res.render("index", {
-    title: "Learning Management System",
+    title: "Learning-Management-System",
   });
 });
 
 app.get("/edsignup", (req, res) => {
   res.render("educator", {
-    title: "Sign UP Educator",
+    title: "Sign-up Form",
   });
 });
 
@@ -103,7 +95,6 @@ app.post("/eusers", async (req, res) => {
       if (err) {
         console.log(err);
       }
-      const userRole = user.role;
       res.redirect("/courses/new");
     });
   } catch (error) {
@@ -230,9 +221,6 @@ app.post("/courses/:id/chapters/new", async (request, response) => {
         courseId,
       });
       console.log(courseId);
-      console.log(title);
-      console.log(description);
-  
       response.redirect(`/courses/${courseId}/chapters/${chapter.id}/page`);
     } catch (error) {
       console.error(error);
@@ -263,17 +251,14 @@ app.post("/courses/:id/chapters/new", async (request, response) => {
     try {
       const { title, content } = req.body;
       const chapterId=req.params.chapterId
-
       const page = await Pages.create({
         title: title,
         content: content,
         chapterId: chapterId,
       });
       const courseId = req.params.courseId;
-
       const pageId = page.id;
       res.redirect(`/view/${courseId}/${chapterId}/${pageId}`);
-  
       console.log(pageId);
     } catch (error) {
       console.error(error);
@@ -291,16 +276,9 @@ app.post("/courses/:id/chapters/new", async (request, response) => {
   
       try {
         const page = await Pages.findByPk(pageId);
-  
-        if (!page) {
-          return res.status(404).send("Page not found");
-        }
-        const title = page.title;
-        const content = page.content;
-  
         res.render("pageview", {
-          title,
-          content,
+          title:page.title,
+          content:page.content,
           courseId,
           chapterId,
           });
