@@ -7,22 +7,19 @@
 <body class="bg-gray-100 font-sans">
     <h3><h3  class="text-2xl text-gray-800 font-semibold">Course Name :</h3><%= course.title %></h3>
     <h3><h3  class="text-2xl text-gray-800 font-semibold">Chapter Name :</h3><%= chapter.title %></h3>
-                <h1 class="text-2xl text-gray-800 font-semibold  mb-6">Create a page</h1>
-                <form class="max-w-md mx-auto" action="/course/<%= courseId %>/chapter/<%= chapterId %>/page/new" method="POST">
-                    <div class="mb-5">
-                        <label for="title" class="block text-gray-700 text-md font-semibold mb-2">Page Title</label>
-                        <input class="w-full p-3 border border-gray-500 rounded focus:outline-none focus:border-blue-600 font-semibold" type="text" id="title" name="title" placeholder="Enter Course name" required>
-                    </div>
-                    <div class="mb-5">
-                        <label for="title" class="block text-gray-700 text-md font-semibold mb-2">Content</label>
-                        <textarea class="w-full p-3 border border-gray-500 rounded focus:outline-none focus:border-blue-600 font-semibold" type="text" id="title" name="content" placeholder="Enter Course name" required></textarea>
-                    </div>
-                    <div class="mb-6">
-                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-2xl" type="submit">Create Course</button>
-                    </div>
-                </form>
-            </div>
+    <h1 class="text-2xl text-gray-800 font-semibold  mb-6">Create a page</h1>
+    <form class="max-w-md mx-auto" action="/course/<%= courseId %>/chapter/<%= chapterId %>/page/new" method="POST">
+        <div class="mb-5">
+            <label for="title" class="block text-gray-700 text-md font-semibold mb-2">Page Title</label>
+            <input class="w-full p-3 border border-gray-500 rounded focus:outline-none focus:border-blue-600 font-semibold" type="text" id="title" name="title" placeholder="Enter Course name" required>
         </div>
-    </div>
+        <div class="mb-5">
+            <label for="title" class="block text-gray-700 text-md font-semibold mb-2">Content</label>
+            <textarea class="w-full p-3 border border-gray-500 rounded focus:outline-none focus:border-blue-600 font-semibold" type="text" id="title" name="content" placeholder="Enter Course name" required></textarea>
+        </div>
+        <div class="mb-6">
+            <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-2xl" type="submit">Create Course</button>
+        </div>
+    </form>
 </body>
 </html>
