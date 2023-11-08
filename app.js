@@ -156,7 +156,7 @@ app.post(
   (req, res) => {
     console.log(req.user);
       res.redirect("/courses/new");
-      res.redirect("/");
+
     }
 );
 app.post("/studentlogin", async (req, res) => {
@@ -180,7 +180,7 @@ app.post(
   (req, res) => {
     console.log(req.user);
       res.redirect("/courses/new");
-      res.redirect("/");
+ 
     }
 );
 
