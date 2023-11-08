@@ -4,8 +4,10 @@
   "description": "\"This is a capstone project of WD201\"",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -e js,ejs",
-    "test": "jest",
+  "start": "nodemon -e js, ejs",
+    "start:prod": "node index.js",
+    "pretest": "NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create",
+    "test": "NODE_ENV=test jest --detectOpenHandles",
     "prepare": "cd .. && husky install Learning_management_system/.husky"
   },
   "author": "Harish Shanmugam (hs)",
