@@ -11,22 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
      
-        Courses.hasMany(models.Chapters)
+      this.hasMany(models.Chapters, { foreignKey: "courseId" });
       
-      // define association here
     }
-    static addnewcourse({name})
-    {
-      return this.create({
-        title:name,
-        
-      })
-    }
-      static getvalues() {
-        return this.findAll();
-      }
-    
-    
     
   }
   Courses.init({
