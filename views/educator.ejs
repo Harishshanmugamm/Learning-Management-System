@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>
+        <%= title %>
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<style>
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: rgb(13, 13, 13);
+}
+
+.Todo-Item:hover .trash-icon {
+  display: block;
+}
+
+</style>
+<body>
+    <div class="grid grid-cols-6">
+        <div class="col-start-3 col-span-2">
+            <!--Header Start-->
+            <div class="border-content h-128 w-128 p-6  border-4 ">
+                <h6 class="py-4 text-white text-2xl font-extrabold text-center">SignUp as a New Educator</h6>
+                <form action="/eusers" method="post">
+                   
+                    <div class="py-3">
+                        <label for="firstName" class="text-white text-lg font-semibold">First Name:</label>
+                        <input type="text"
+                            class=" border border-green-400 text-grey-1400 rounded w-full p-3 text-sm w-96"
+                            name="firstName" placeholder="What's Your FirstName" required>
+                    </div>
+                    <div class="py-3">
+                        <label for="lastName" class="text-white text-lg font-semibold">Last Name:</label>
+                        <input class="border border-green-400 text-grey-1400 rounded w-full p-3 text-sm w-96"
+                            type="text" name="lastName" placeholder="What's Your Last Name">
+                    </div>
+                    <div class="py-3">
+                        <label for="email" class="text-white text-lg font-semibold">Email Id:</label>
+                        <input class="border border-green-400 text-grey-1400 rounded w-full p-3 text-sm w-96"
+                            type="email" name="email" placeholder="Enter your Email id" required>
+                    </div>
+                    <div class="py-3">
+                        <label for="password" class="text-white text-lg font-semibold">Password:</label>
+                        <input class="border border-green-400 text-grey-1400 rounded w-full p-3 text-sm w-96"
+                            type="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    <div class="py-3">
+                        <button class="bg-orange-700 text-white pad px-5 py-3 rounded py-1.5 font-medium mr-2 mb-2 "
+                            type="submit">Sign Up</button>
+                    </div>
+                    <p class="py-1 text-white text-center ">Already have an Educator Account? <a href="/" class="text-orange-700"><br>Sign-in now</a></p>
+                </form>
+            </div>    
+        </div>
+    </div>
+</body>
+
+</html>
