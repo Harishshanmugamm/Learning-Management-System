@@ -98,7 +98,6 @@ app.post("/eusers", async (req, res) => {
       lastName: req.body.lastName,
       email: req.body.email,
       password: Hashed,
-      role: "educator",
     });
     req.login(user, (err) => {
       if (err) {
@@ -122,7 +121,6 @@ app.post("/susers", async (req, res) => {
       lastname: req.body.lastname,
       email: req.body.email,
       password: Hashed,
-      role: "student",
     });
     req.login(user, (err) => {
       if (err) {
@@ -156,12 +154,9 @@ app.post(
   }),
 
   (req, res) => {
-    console.log(req.user);
-    if (req.user.role === "educator") {
+    console.log(req.user);{
       res.redirect("/courses/new");
-    } else {
       res.redirect("/");
-    }
   },
 );
 app.post("/studentlogin", async (req, res) => {
@@ -184,11 +179,8 @@ app.post(
   }),
   (req, res) => {
     console.log(req.user);
-    if (req.user.role === "student") {
       res.redirect("/courses/new");
-    } else {
       res.redirect("/");
-    }
   },
 );
 
